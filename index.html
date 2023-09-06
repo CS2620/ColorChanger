@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+</head>
+
+<body>
+  <div>Find out when you stop seeing color in your peripheral vision.</div>
+  <div>Turn your head so you can only see the colored square in your peripheral vision. Tell someone who is looking directly at the colored square what color you see. Find out how close you can look but still not see the color.</div>
+  <div>
+    <img src="./Diagram.png" width="300">
+  </div>
+  <canvas id="canvas"></canvas>
+  <script>
+    let canvas = document.querySelector("#canvas")
+    let ctx = canvas.getContext("2d")
+
+
+    let colors = [[255, 0, 0], [0, 255, 0], [0, 0, 255], [128,128,128], [255,255,0], [255,0,255],[0,255,255]]
+    let currentColorIndex = 0
+    let nextColorIndex = 0
+    let time = 0
+
+    reset();
+
+    function reset(){
+      time = 0;
+        currentColorIndex = nextColorIndex;
+        nextColorIndex = Math.floor(Math.random() * colors.length);
+    }
+    function draw() {
+      time += .01;
+
+      let from = (1-time);
+      let to = time;
+      let r = from * colors[currentColorIndex][0] + to * colors[nextColorIndex][0]
+      let g = from * colors[currentColorIndex][1] + to * colors[nextColorIndex][1]
+      let b = from * colors[currentColorIndex][2] + to * colors[nextColorIndex][2]
+
+      ctx.fillStyle = `rgb(${r}, ${g}, ${b})`
+
+      if(time >= 1){
+        reset();
+      }
+      ctx.fillRect(0, 0, 100, 100)
+    }
+
+
+    setInterval(draw, 50);
+    draw();
+
+  </script>
+</body>
+
+</html>
